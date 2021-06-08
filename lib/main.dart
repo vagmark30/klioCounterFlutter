@@ -123,60 +123,98 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
+      body: Container(
+        constraints: BoxConstraints.expand(),
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage("images/app_bg.jpg"),
+                fit: BoxFit.cover)),
+        child :Center(
+          // Center is a layout widget. It takes a single child and positions it
+          // in the middle of the parent.
 
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Currently on board:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-            ElevatedButton(
-              onPressed: _incrementCounter,
-              child: Text('+1'),
-            ),
-            ElevatedButton(
-              onPressed: _increment2Counter,
-              child: Text('+2'),
-            ),
-            ElevatedButton(
-              onPressed: _increment3Counter,
-              child: Text('+3'),
-            ),
-            ElevatedButton(
-              onPressed: _increment4Counter,
-              child: Text('+4'),
-            ),
+          child: Column(
+            // Column is also a layout widget. It takes a list of children and
+            // arranges them vertically. By default, it sizes itself to fit its
+            // children horizontally, and tries to be as tall as its parent.
+            //
+            // Invoke "debug painting" (press "p" in the console, choose the
+            // "Toggle Debug Paint" action from the Flutter Inspector in Android
+            // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
+            // to see the wireframe for each widget.
+            //
+            // Column has various properties to control how it sizes itself and
+            // how it positions its children. Here we use mainAxisAlignment to
+            // center the children vertically; the main axis here is the vertical
+            // axis because Columns are vertical (the cross axis would be
+            // horizontal).
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Text(
+                'Currently on board:',
+                style: Theme.of(context).accentTextTheme.headline5,
+              ),
+              Text(
+                '$_counter',
+                style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.0, color: Colors.redAccent),
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    primary: Colors.lightBlueAccent,
+                    textStyle: TextStyle(fontSize: 30),
+                    padding: EdgeInsets.symmetric(horizontal: 70, vertical: 10)
+                ),
+                onPressed: _incrementCounter,
+                child: Text('+1'),
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    primary: Colors.lightBlueAccent,
+                    textStyle: TextStyle(fontSize: 30),
+                    padding: EdgeInsets.symmetric(horizontal: 70, vertical: 10)
+                ),
+                onPressed: _increment2Counter,
+                child: Text('+2'),
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    primary: Colors.lightBlueAccent,
+                    textStyle: TextStyle(fontSize: 30),
+                    padding: EdgeInsets.symmetric(horizontal: 70, vertical: 10)
+                ),
+                onPressed: _increment3Counter,
+                child: Text('+3'),
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    primary: Colors.lightBlueAccent,
+                    textStyle: TextStyle(fontSize: 30),
+                    padding: EdgeInsets.symmetric(horizontal: 70, vertical: 10)
+                ),
+                onPressed: _increment4Counter,
+                child: Text('+4'),
+              ),
 
-            ElevatedButton(
-              onPressed: _decreaceCounter,
-              child: Text('-1'),
-            ),
-            ElevatedButton(
-              onPressed: _resetCounter,
-              child: Text('Reset'),
-            ),
-          ],
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    primary: Colors.redAccent,
+                    textStyle: TextStyle(fontSize: 30),
+                    padding: EdgeInsets.symmetric(horizontal: 70, vertical: 10)
+                ),
+                onPressed: _decreaceCounter,
+                child: Text('- 1'),
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    primary: Colors.greenAccent,
+                    textStyle: TextStyle(fontSize: 30),
+                    padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10)
+                ),
+                onPressed: _resetCounter,
+                child: Text('Reset'),
+              ),
+            ],
+          ),
         ),
       ),
     );
