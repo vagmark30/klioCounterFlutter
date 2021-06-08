@@ -1,6 +1,8 @@
 # kliocounter
 
-Klio counter.
+Klio Cruises Counter.
+
+![alt text](https://raw.githubusercontent.com/vagmark30/klioCounterFlutter/main/images/demo.jpg)
 
 ## Getting Started
 
