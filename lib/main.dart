@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:heatmap_calendar/heatmap_calendar.dart';
+import 'package:heatmap_calendar/time_utils.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 void main() {
   runApp(MyApp());
@@ -47,65 +51,59 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  int _history = 0;
 
   void _incrementCounter() {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
+      _history = _counter;
       _counter++;
     });
   }
   void _increment2Counter() {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
+      _history = _counter;
       _counter+=2;
     });
   }
   void _increment3Counter() {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
+      _history = _counter;
       _counter+=3;
     });
   }
   void _increment4Counter() {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
+      _history = _counter;
       _counter+=4;
+    });
+  }
+  void _increment5Counter() {
+    setState(() {
+      _history = _counter;
+      _counter+=5;
+    });
+  }
+  void _increment10Counter() {
+    setState(() {
+      _history = _counter;
+      _counter+=10;
     });
   }
   void _decreaceCounter() {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
+      _history = _counter;
       _counter--;
     });
   }
   void _resetCounter() {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
+      _history = _counter;
       _counter = 0;
+    });
+  }
+  void _undoCounter() {
+    setState(() {
+      _counter = _history;
     });
   }
 
@@ -162,7 +160,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 style: ElevatedButton.styleFrom(
                     primary: Colors.lightBlueAccent,
                     textStyle: TextStyle(fontSize: 30),
-                    padding: EdgeInsets.symmetric(horizontal: 70, vertical: 10)
+                    padding: EdgeInsets.symmetric(horizontal: 70, vertical: 10),
                 ),
                 onPressed: _incrementCounter,
                 child: Text('+1'),
@@ -194,26 +192,130 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressed: _increment4Counter,
                 child: Text('+4'),
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          primary: Colors.lightBlueAccent,
+                          textStyle: TextStyle(fontSize: 30),
+                          padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10)
+                      ),
+                      onPressed: _increment5Counter,
+                      child: Text('+5')),
+                  ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          primary: Colors.lightBlueAccent,
+                          textStyle: TextStyle(fontSize: 30),
+                          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10)
+                      ),
+                      onPressed: _increment10Counter,
+                      child: Text('+10'))
+                ],
+              ),
 
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                     primary: Colors.redAccent,
-                    textStyle: TextStyle(fontSize: 30),
+                    textStyle: TextStyle(fontSize: 25),
                     padding: EdgeInsets.symmetric(horizontal: 70, vertical: 10)
                 ),
                 onPressed: _decreaceCounter,
                 child: Text('- 1'),
               ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    primary: Colors.greenAccent,
-                    textStyle: TextStyle(fontSize: 30),
-                    padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10)
-                ),
-                onPressed: _resetCounter,
-                child: Text('Reset'),
+          Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        primary: Colors.greenAccent,
+                        textStyle: TextStyle(fontSize: 20),
+                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10)
+                    ),
+                    onPressed: _resetCounter,
+                    child: Text('Reset'),
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        primary: Colors.lightGreenAccent,
+                        textStyle: TextStyle(fontSize: 20),
+                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10)
+                    ),
+                    onPressed: _undoCounter,
+                    child: Text('Undo'),
+                  ),
+                ],
               ),
             ],
+          ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => SecondRoute()),
+          );
+        },
+        tooltip: 'Overview',
+        child: Icon(Icons.add_chart),
+      ),
+    );
+  }
+}
+class SecondRoute extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Overview"),
+      ),
+      body: Container(
+        constraints: BoxConstraints.expand(),
+        decoration: BoxDecoration(
+        image: DecorationImage(
+        image: AssetImage("images/app_bg.jpg"),
+        fit: BoxFit.cover)),
+        child :Center(
+          child: HeatMapCalendar(
+            input: {
+              TimeUtils.removeTime(DateTime.now().subtract(Duration(days: 5))): 5,
+              TimeUtils.removeTime(DateTime.now().subtract(Duration(days: 4))): 11,
+              TimeUtils.removeTime(DateTime.now().subtract(Duration(days: 3))): 22,
+              TimeUtils.removeTime(DateTime.now().subtract(Duration(days: 2))): 33,
+              TimeUtils.removeTime(DateTime.now().subtract(Duration(days: 1))): 44,
+              TimeUtils.removeTime(DateTime.now()): 55,
+            },
+            colorThresholds: {
+              1: Colors.green[100]!,
+              20: Colors.green[200]!,
+              30: Colors.green[300]!,
+              40: Colors.green[400]!,
+              50: Colors.green[500]!,
+              60: Colors.green[600]!,
+              70: Colors.green[700]!,
+
+            },
+            weekDaysLabels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
+            monthsLabels: [
+              "",
+              "Jan",
+              "Feb",
+              "Mar",
+              "Apr",
+              "May",
+              "Jun",
+              "Jul",
+              "Aug",
+              "Sep",
+              "Oct",
+              "Nov",
+              "Dec",
+            ],
+            squareSize: 40.0,
+            textOpacity: 1,
+            labelTextColor: Colors.lightBlue,
+            dayTextColor: Colors.blue[500],
           ),
         ),
       ),
