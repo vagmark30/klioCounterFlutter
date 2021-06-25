@@ -1,3 +1,4 @@
+// @dart=2.12
 import 'package:flutter/material.dart';
 import 'package:heatmap_calendar/heatmap_calendar.dart';
 import 'package:heatmap_calendar/time_utils.dart';
@@ -52,6 +53,40 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   int _history = 0;
+
+  //
+  // final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+  // FirebaseFirestore firestore = FirebaseFirestore.instance;
+  // final String documentId="";
+  //
+  //
+  // @override
+  // Widget build(BuildContext context) {
+  //   CollectionReference users = FirebaseFirestore.instance.collection('users');
+  //
+  //   return FutureBuilder<DocumentSnapshot>(
+  //     future: users.doc(documentId).get(),
+  //     builder:
+  //         (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+  //
+  //       if (snapshot.hasError) {
+  //         return Text("Something went wrong");
+  //       }
+  //
+  //       if (snapshot.hasData && !snapshot.data!.exists) {
+  //         return Text("Document does not exist");
+  //       }
+  //
+  //       if (snapshot.connectionState == ConnectionState.done) {
+  //         Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
+  //         return Text("Full Name: ${data['full_name']} ${data['last_name']}");
+  //       }
+  //
+  //       return Text("loading");
+  //     },
+  //   );
+  // }
+
 
   void _incrementCounter() {
     setState(() {
@@ -287,14 +322,8 @@ class SecondRoute extends StatelessWidget {
               TimeUtils.removeTime(DateTime.now()): 55,
             },
             colorThresholds: {
-              1: Colors.green[100]!,
-              20: Colors.green[200]!,
-              30: Colors.green[300]!,
-              40: Colors.green[400]!,
-              50: Colors.green[500]!,
-              60: Colors.green[600]!,
-              70: Colors.green[700]!,
-
+              1: Colors.green,
+              20: Colors.blue,
             },
             weekDaysLabels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
             monthsLabels: [
