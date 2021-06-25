@@ -53,6 +53,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   int _history = 0;
+  double _schedule = 12.0;
+  String _scheduleF = "12.00";
 
   //
   // final Future<FirebaseApp> _initialization = Firebase.initializeApp();
@@ -141,6 +143,41 @@ class _MyHomePageState extends State<MyHomePage> {
       _counter = _history;
     });
   }
+  void _previousCruise() {
+    if(_schedule != 12){
+      if(_schedule % 1 == 0){
+        setState(() {
+          _schedule -= 1.70;
+        });
+      }else{
+          setState(() {
+            _schedule -= 1.30;
+          });
+      }
+    }
+    _scheduleF = _schedule.toStringAsFixed(2);
+  }
+  void _nextCruise() {
+    if(_schedule != 24){
+      if(_schedule % 1 == 0){
+        setState(() {
+          _schedule += 1.30;
+        });
+      }else{
+        setState(() {
+          _schedule += 1.70;
+        });
+      }
+    }
+    _scheduleF = _schedule.toStringAsFixed(2);
+  }
+  void _goCruise() {
+    setState(() {
+      _history = 0;
+      _counter = 0;
+      _nextCruise();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -183,9 +220,34 @@ class _MyHomePageState extends State<MyHomePage> {
             // horizontal).
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          primary: Colors.lightBlueAccent,
+                          textStyle: TextStyle(fontSize: 20),
+                          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10)
+                      ),
+                      onPressed: _previousCruise,
+                      child: Text('<-')),
+                  Text(
+                    '$_scheduleF',
+                    style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.0, color: Colors.redAccent),
+                  ),
+                  ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          primary: Colors.lightBlueAccent,
+                          textStyle: TextStyle(fontSize: 20),
+                          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10)
+                      ),
+                      onPressed: _nextCruise,
+                      child: Text('->'))
+                ],
+              ),
               Text(
                 'Currently on board:',
-                style: Theme.of(context).accentTextTheme.headline5,
+                style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 0.5, color: Colors.lightBlueAccent),
               ),
               Text(
                 '$_counter',
@@ -209,24 +271,24 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressed: _increment2Counter,
                 child: Text('+2'),
               ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    primary: Colors.lightBlueAccent,
-                    textStyle: TextStyle(fontSize: 30),
-                    padding: EdgeInsets.symmetric(horizontal: 70, vertical: 10)
-                ),
-                onPressed: _increment3Counter,
-                child: Text('+3'),
-              ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    primary: Colors.lightBlueAccent,
-                    textStyle: TextStyle(fontSize: 30),
-                    padding: EdgeInsets.symmetric(horizontal: 70, vertical: 10)
-                ),
-                onPressed: _increment4Counter,
-                child: Text('+4'),
-              ),
+              // ElevatedButton(
+              //   style: ElevatedButton.styleFrom(
+              //       primary: Colors.lightBlueAccent,
+              //       textStyle: TextStyle(fontSize: 30),
+              //       padding: EdgeInsets.symmetric(horizontal: 70, vertical: 10)
+              //   ),
+              //   onPressed: _increment3Counter,
+              //   child: Text('+3'),
+              // ),
+              // ElevatedButton(
+              //   style: ElevatedButton.styleFrom(
+              //       primary: Colors.lightBlueAccent,
+              //       textStyle: TextStyle(fontSize: 30),
+              //       padding: EdgeInsets.symmetric(horizontal: 70, vertical: 10)
+              //   ),
+              //   onPressed: _increment4Counter,
+              //   child: Text('+4'),
+              // ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -280,6 +342,15 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: Text('Undo'),
                   ),
                 ],
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    primary: Colors.lightBlueAccent,
+                    textStyle: TextStyle(fontSize: 20),
+                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20)
+                ),
+                onPressed: _goCruise,
+                child: Text('Go'),
               ),
             ],
           ),
